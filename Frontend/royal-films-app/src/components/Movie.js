@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 
 
-
 class Movies extends Component {
 
     state = {
         movies: [],
+        search: ''
     }
 
     async componentDidMount() {
@@ -19,6 +19,7 @@ class Movies extends Component {
             this.setState({
                 movies: res.data.movies,
             })
+            console.table(res.data.movies);
         }
     }
 
@@ -34,21 +35,25 @@ class Movies extends Component {
                 if (willDelete) {
                     const api = `api/delete-movie/${id}`;
                     const res = axios.delete(api);
+                    this.componentDidMount();
                     swal("Película eliminada correctamente", {
                         icon: "success",
                     });
+                    this.props.history.push("/add-movie");
+                    this.props.history.push("/");
                 } else {
                     swal("Acción cancelada");
                 }
             });
     }
+
     render() {
         var moviesCards = "";
         moviesCards = this.state.movies.map((item) => {
             return (
                 <div className="col" key={item.id} >
                     <div className="card h-100">
-                        <img src="https://i1.wp.com/gamerstyle.com.mx/wp-content/uploads/2019/01/LEGO.jpg" className="card-img-top" alt={item.movie_name} />
+                        <img style={{ height: '300px' }} src={item.imgUrl} className="card-img-top" alt={item.movie_name} />
                         <div className="card-body">
                             <h5 className="card-title"> {item.name_movie} </h5>
                             <h6 class="card-subtitle mb-2 text-muted">Clasificación: {item.clasification_movie} </h6>
@@ -59,6 +64,7 @@ class Movies extends Component {
                             <li class="list-group-item">Director: {item.director_movie} </li>
                         </ul>
                         <div class="card-body">
+                            <a target={'_blank'} className="card-link btn btn-dark" href={item.link_trailer_movie}> Ver trailer </a>
                             <Link className="card-link btn btn-secondary" to={`edit-movie/${item.id}`}> Editar </Link>
                             <button className="card-link btn btn-danger" onClick={(e) => this.deleteMovie(e, item.id)}>Eliminar</button>
                         </div>
@@ -75,7 +81,7 @@ class Movies extends Component {
                 <div className='container-fluid py-5'>
                     <div className="input-group mb-3">
                         <span className="input-group-text" id="basic-addon1">@</span>
-                        <input type="text" className="form-control" placeholder="¿Que deseas buscar?" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input onChange={this.handleInput} value={this.state.search} type="text" className="form-control" placeholder="¿Que deseas buscar?" aria-label="Username" aria-describedby="basic-addon1" />
                     </div>
                     <div className="row row-cols-1 row-cols-md-3 g-4">
                         {moviesCards}

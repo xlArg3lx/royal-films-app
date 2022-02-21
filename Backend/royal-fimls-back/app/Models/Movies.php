@@ -18,5 +18,7 @@ class Movies extends Model
         'link_trailer_movie',
         'director_movie',
         'sipnosis_movie',
+        'reparto_movie',
+        'imgUrl',
     ];
 }

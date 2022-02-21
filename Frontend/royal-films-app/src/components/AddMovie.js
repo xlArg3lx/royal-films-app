@@ -15,6 +15,8 @@ class AddMovie extends Component {
         link_trailer_movie: '',
         director_movie: '',
         sipnosis_movie: '',
+        reparto_movie: '',
+        imgUrl: '',
         error_list: [],
     }
 
@@ -23,6 +25,7 @@ class AddMovie extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
+
     }
 
     // Función guardar películas DB
@@ -42,7 +45,6 @@ class AddMovie extends Component {
             });
             document.getElementById('saveBtn').innerText = "Guardar película";
             document.getElementById('saveBtn').disabled = false;
-            this.props.history.push("/")
             this.setState({
                 name_movie: '',
                 language_movie: '',
@@ -52,6 +54,8 @@ class AddMovie extends Component {
                 link_trailer_movie: '',
                 director_movie: '',
                 sipnosis_movie: '',
+                reparto_movie: '',
+                imgUrl: '',
             })
         } else {
             document.getElementById('saveBtn').innerText = "Guardar película";
@@ -117,11 +121,23 @@ class AddMovie extends Component {
                                         <input type="text" className="form-control" name="director_movie" onChange={this.handleInput} value={this.state.director_movie} />
                                         <span className='text-danger'> {this.state.error_list.director_movie} </span>
                                     </div>
-                                    <div className="col-12">
+                                    <div className="col-md-12">
+                                        <label htmlFor="inputZip" className="form-label">Portada:</label>
+                                        <input type="text" className="form-control" placeholder='Url de la portada' name="imgUrl" onChange={this.handleInput} value={this.state.imgUrl} />
+                                        <span className='text-danger'> {this.state.error_list.imgUrl} </span>
+                                    </div>
+                                    <div className="col-6">
                                         <div className="form-floating">
                                             <textarea className="form-control" name="sipnosis_movie" placeholder="Leave a comment here" id="floatingTextarea" onChange={this.handleInput} value={this.state.sipnosis_movie} />
                                             <label htmlFor="floatingTextarea">Sipnosis</label>
                                             <span className='text-danger'> {this.state.error_list.sipnosis_movie} </span>
+                                        </div>
+                                    </div>
+                                    <div className="col-6">
+                                        <div className="form-floating">
+                                            <textarea className="form-control" name="reparto_movie" placeholder="Leave a comment here" id="floatingTextarea" onChange={this.handleInput} value={this.state.reparto_movie} />
+                                            <label htmlFor="floatingTextarea">Reparto</label>
+                                            <span className='text-danger'> {this.state.error_list.reparto_movie} </span>
                                         </div>
                                     </div>
                                     <div className="col-12">

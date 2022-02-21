@@ -23,6 +23,8 @@ class CreateMoviesTable extends Migration
             $table->text('link_trailer_movie');
             $table->string('director_movie');
             $table->text('sipnosis_movie');
+            $table->text('reparto_movie');
+            $table->text('imgUrl');
             $table->timestamps();
         });
     }

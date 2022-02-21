@@ -36,6 +36,8 @@ class MoviesController extends Controller
             'link_trailer_movie' => 'required',
             'director_movie' => 'required',
             'sipnosis_movie' => 'required',
+            'reparto_movie' => 'required',
+            'imgUrl' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -53,6 +55,8 @@ class MoviesController extends Controller
             $movie->link_trailer_movie = $request->link_trailer_movie;
             $movie->director_movie = $request->director_movie;
             $movie->sipnosis_movie = $request->sipnosis_movie;
+            $movie->reparto_movie = $request->reparto_movie;
+            $movie->imgUrl = $request->imgUrl;
 
             $movie->save();
             return response()->json([
@@ -103,20 +107,41 @@ class MoviesController extends Controller
         //
         $movie = Movies::findOrFail($id);
 
-        $movie->name_movie = $request->name_movie;
-        $movie->language_movie = $request->language_movie;
-        $movie->clasification_movie = $request->clasification_movie;
-        $movie->duration_movie = $request->duration_movie;
-        $movie->release_date_movie = $request->release_date_movie;
-        $movie->link_trailer_movie = $request->link_trailer_movie;
-        $movie->director_movie = $request->director_movie;
-        $movie->sipnosis_movie = $request->sipnosis_movie;
-
-        $movie->save();
-        return response()->json([
-            'status' => 200,
-            'movie' => $movie,
+        $validator = Validator::make($request->all(), [
+            'name_movie' => 'required',
+            'language_movie' => 'required',
+            'clasification_movie' => 'required',
+            'duration_movie' => 'required',
+            'release_date_movie' => 'required',
+            'link_trailer_movie' => 'required',
+            'director_movie' => 'required',
+            'sipnosis_movie' => 'required',
+            'reparto_movie' => 'required',
+            'imgUrl' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'validate_err' => $validator->getMessageBag(),
+            ]);
+        } else {
+                $movie->name_movie = $request->name_movie;
+                $movie->language_movie = $request->language_movie;
+                $movie->clasification_movie = $request->clasification_movie;
+                $movie->duration_movie = $request->duration_movie;
+                $movie->release_date_movie = $request->release_date_movie;
+                $movie->link_trailer_movie = $request->link_trailer_movie;
+                $movie->director_movie = $request->director_movie;
+                $movie->sipnosis_movie = $request->sipnosis_movie;
+                $movie->reparto_movie = $request->reparto_movie;
+                $movie->imgUrl = $request->imgUrl;
+        
+                $movie->save();
+                return response()->json([
+                    'status' => 200,
+                    'movie' => $movie,
+                ]);
+        }
     }
 
     /**
